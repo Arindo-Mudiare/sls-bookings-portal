@@ -14,6 +14,22 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    isStaffAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    isSuperAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    seenNotifications: {
+      type: Array,
+      default: [],
+    },
+    unseenNotifications: {
+      type: Array,
+      default: [],
+    },
   },
   {
     timestamps: true,
