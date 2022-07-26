@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/userModel");
+const Booking = require("../models/bookingModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authMiddleware = require("../middleware/authMiddleware");
@@ -78,6 +79,37 @@ router.post("/get-user-info-by-id", authMiddleware, async (req, res) => {
     res
       .status(500)
       .send({ message: "Error getting user info", success: false, error });
+  }
+});
+
+// submit Booking
+router.post("/submit-new-booking", authMiddleware, async (req, res) => {
+  try {
+    const newBooking = new Booking({ ...req.body, status: "pending" });
+    await newBooking.save();
+    const adminUser = await User.findOne({ isAdmin: true });
+
+    // after saving a booking create a new notification for admin
+    const unseenNotifications = adminUser.unseenNotifications;
+    unseenNotifications.push({
+      type: "new-booking-request",
+      message: `${newBooking.name} has made a new Booking`,
+      data: {
+        bookingId: newBooking._id,
+        name: newBooking.name,
+      },
+      onClickPath: "/admin/bookings",
+    });
+    await User.findByIdAndUpdate(adminUser._id, { unseenNotifications });
+    res.status(200).send({
+      success: true,
+      message: "New Booking Created Successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .send({ message: "Error Saving Your Booking", success: false, error });
   }
 });
 
