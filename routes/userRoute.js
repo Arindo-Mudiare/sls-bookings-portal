@@ -6,6 +6,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authMiddleware = require("../middleware/authMiddleware");
 
+// Register a new User
 router.post("/register", async (req, res) => {
   try {
     const userExists = await User.findOne({ email: req.body.email });
@@ -31,6 +32,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
+// Login registered user
 router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
@@ -59,7 +61,7 @@ router.post("/login", async (req, res) => {
       .send({ message: "Error Authenticating User", success: false, error });
   }
 });
-
+//  Retrieve registered user from database
 router.post("/get-user-info-by-id", authMiddleware, async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.body.userId });
@@ -87,7 +89,7 @@ router.post("/submit-new-booking", authMiddleware, async (req, res) => {
   try {
     const newBooking = new Booking({ ...req.body, status: "pending" });
     await newBooking.save();
-    const adminUser = await User.findOne({ isAdmin: true });
+    const adminUser = await User.findOne({ isSuperAdmin: true });
 
     // after saving a booking create a new notification for admin
     const unseenNotifications = adminUser.unseenNotifications;
@@ -110,6 +112,59 @@ router.post("/submit-new-booking", authMiddleware, async (req, res) => {
     res
       .status(500)
       .send({ message: "Error Saving Your Booking", success: false, error });
+  }
+});
+
+// Mark Notifications as seen
+router.post(
+  "/mark-all-notifications-as-seen",
+  authMiddleware,
+  async (req, res) => {
+    try {
+      const user = await User.findOne({ _id: req.body.userId });
+      const unseenNotifications = user.unseenNotifications;
+      const seenNotifications = user.seenNotifications;
+      seenNotifications.push(...unseenNotifications);
+      user.unseenNotifications = [];
+      user.seenNotifications = seenNotifications;
+      const updatedUser = await user.save();
+      updatedUser.password = undefined;
+      res.status(200).send({
+        success: true,
+        message: "All notifications marked as seen",
+        data: updatedUser,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+        message: "Error Marking Notifications",
+        success: false,
+        error,
+      });
+    }
+  }
+);
+
+// Delete all Notifications
+router.post("/delete-all-notifications", authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.body.userId });
+    user.seenNotifications = [];
+    user.unseenNotifications = [];
+    const updatedUser = await user.save();
+    updatedUser.password = undefined;
+    res.status(200).send({
+      success: true,
+      message: "All Notifications have been Deleted",
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message: "Error Deleting Notifications",
+      success: false,
+      error,
+    });
   }
 });
 
