@@ -30,7 +30,7 @@ const BookingSchema = new mongoose.Schema({
     required: true,
   },
   quantity: {
-    type: String,
+    type: Number,
     required: true,
   },
   additionalInfo: {
@@ -42,7 +42,7 @@ const BookingSchema = new mongoose.Schema({
     required: true,
   },
   inputOffer: {
-    type: String,
+    type: Number,
     required: false,
   },
   status: {
