@@ -87,7 +87,12 @@ router.post("/get-user-info-by-id", authMiddleware, async (req, res) => {
 // submit Booking
 router.post("/submit-new-booking", authMiddleware, async (req, res) => {
   try {
-    const newBooking = new Booking({ ...req.body, status: "pending" });
+    // const user = await User.findOne({ _id: req.body.userId });
+    req.body.createdBy = req.body.userId;
+    const newBooking = new Booking({
+      ...req.body,
+      createdBy: req.body.userId,
+    });
     await newBooking.save();
     const adminUser = await User.findOne({ isSuperAdmin: true });
 
@@ -112,6 +117,25 @@ router.post("/submit-new-booking", authMiddleware, async (req, res) => {
     res
       .status(500)
       .send({ message: "Error Saving Your Booking", success: false, error });
+  }
+});
+
+//  Retrieve All Bookings from Current User
+router.get("/get-user-bookings", authMiddleware, async (req, res) => {
+  try {
+    const bookings = await Booking.find({ createdBy: req.body.userId });
+    res.status(200).send({
+      message: "User's Bookings fetched successfully",
+      success: true,
+      data: bookings,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message: "Error getting User's Bookings",
+      success: false,
+      error,
+    });
   }
 });
 

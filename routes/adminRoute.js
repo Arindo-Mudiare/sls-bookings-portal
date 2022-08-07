@@ -38,4 +38,37 @@ router.get("/get-all-users", authMiddleware, async (req, res) => {
   }
 });
 
+router.post("/get-admin-info-by-id", authMiddleware, async (req, res) => {
+  try {
+    const admin = await User.findOne({ _id: req.body.userId });
+    res.status(200).send({
+      success: true,
+      message: "admin info fetched successfully",
+      data: admin,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .send({ message: "Error getting admin info", success: false, error });
+  }
+});
+
+router.post("/update-admin-profile", authMiddleware, async (req, res) => {
+  try {
+    const admin = await User.findOneAndUpdate(
+      { userId: req.body.userId },
+      req.body
+    );
+    res.status(200).send({
+      success: true,
+      message: "Admin profile updated successfully",
+      data: admin,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .send({ message: "Error getting Admin info", success: false, error });
+  }
+});
+
 module.exports = router;

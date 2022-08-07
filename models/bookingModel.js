@@ -49,6 +49,10 @@ const BookingSchema = new mongoose.Schema({
     type: String,
     default: "pending",
   },
+  createdBy: {
+    type: mongoose.Types.ObjectId,
+    ref: "users",
+  },
 });
 
 const bookingModel = mongoose.model("bookings", BookingSchema);
