@@ -6,9 +6,9 @@ const {
 } = require("../controllers/authController");
 
 // send password link
-router.route("/forgot").post(forgotPass);
-router.route("/reset/:token").get(verifyToken);
-router.route("/reset/:token").post(confirmPasswords);
+router.route("/").post(forgotPass);
+router.route("/:token").get(verifyToken);
+router.route("/:token").post(confirmPasswords);
 
 // // verify reset token
 // router.post("/verify-rtoken", async (req, res) => {
