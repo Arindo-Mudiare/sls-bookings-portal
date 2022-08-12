@@ -22,7 +22,7 @@ const forgotPass = async (req, res) => {
     await user.save();
 
     //   send them an email with the token
-    const resetUrl = `http://${process.env.BASE_URL2}/api/password-reset/forgot/${user.resetPasswordToken}`;
+    const resetUrl = `http://${process.env.BASE_URL}/api/password-reset/forgot/${user._id}/${user.resetPasswordToken}`;
 
     return res.status(200).send({
       message: `Success!, Password Reset link -- ${resetUrl}`,
@@ -47,7 +47,7 @@ const verifyToken = async (req, res) => {
           .send({ message: "Password reset is invalid or has expired." })
       );
 
-    console.log(`Render reset Password form`);
+    console.log(user);
   } catch (error) {
     res.status(500).send({ message: "Internal Server Error" });
   }

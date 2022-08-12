@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const Token = require("../models/token");
 const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
+const postmark = require("postmark");
 const Joi = require("joi");
 const passwordComplexity = require("joi-password-complexity");
 const bcrypt = require("bcrypt");
@@ -23,20 +24,33 @@ router.post("/", async (req, res) => {
         .status(409)
         .send({ message: "User with given email does not exist!" });
 
-    let token = await Token.findOne({ userId: user._id });
-    if (!token) {
-      token = await new Token({
-        userId: user._id,
-        token: crypto.randomBytes(32).toString("hex"),
-      }).save();
-    }
+    // set reset tokens and expiry on their account
+    user.resetPasswordToken = crypto.randomBytes(32).toString("hex");
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour from now
+    await user.save();
+    // let token = await Token.findOne({ userId: user._id });
+    // if (!token) {
+    //   token = await new Token({
+    //     userId: user._id,
+    //     token: crypto.randomBytes(32).toString("hex"),
+    //   }).save();
+    // }
 
-    const url = `${process.env.BASE_URL}password-reset/${user._id}/${token.token}/`;
-    await sendEmail(user.email, "Password Reset", url);
+    const url = `${process.env.BASE_URL2}/password-reset/${user._id}/${user.resetPasswordToken}`;
+    // await sendEmail(user.email, "Password Reset", url);
+    const serverToken = process.env.API_TOKEN;
+    const client = new postmark.ServerClient(serverToken);
 
-    res
-      .status(200)
-      .send({ message: "Password reset link sent to your email account" });
+    await client.sendEmail({
+      From: "slsbookings@slsportation.com",
+      To: "testbook@slsportation.com",
+      Subject: "Password Reset",
+      TextBody: `Click this link to reset your password ${url}`,
+    });
+
+    res.status(200).send({
+      message: `Password reset link sent to ${user.email}'s email account`,
+    });
   } catch (error) {
     res.status(500).send({ message: "Internal Server Error" });
   }

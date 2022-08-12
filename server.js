@@ -5,11 +5,11 @@ const dbConfig = require("./config/db.config");
 app.use(express.json());
 const userRoute = require("./routes/userRoute");
 const adminRoute = require("./routes/adminRoute");
-// const passwordResetRoutes = require("./routes/passwordReset");
+const passwordResetRoutes = require("./routes/passwordReset");
 const WesPasswordResetRoutes = require("./routes/wesPassReset");
 
 app.use("/api/user", userRoute);
-app.use("/api/password-reset", WesPasswordResetRoutes);
+app.use("/api/password-reset", passwordResetRoutes);
 app.use("/api/admin", adminRoute);
 const port = process.env.PORT || 5000;
 
