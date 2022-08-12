@@ -81,7 +81,7 @@ router.post("/:id/:token", async (req, res) => {
 
     if (!user.verified) user.verified = true;
 
-    const salt = await bcrypt.genSalt(Number(process.env.SALT));
+    const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(req.body.password, salt);
 
     user.password = hashPassword;
