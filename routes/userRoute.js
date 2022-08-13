@@ -145,6 +145,7 @@ router.get("/get-user-bookings", authMiddleware, async (req, res) => {
 router.post("/get-booking-info-by-id", authMiddleware, async (req, res) => {
   try {
     const booking = await Booking.findOne({ _id: req.body.bookingId });
+    // console.log(booking);
     res.status(200).send({
       success: true,
       message: "booking info fetched successfully",
@@ -154,6 +155,26 @@ router.post("/get-booking-info-by-id", authMiddleware, async (req, res) => {
     res
       .status(500)
       .send({ message: "Error getting booking info", success: false, error });
+  }
+});
+
+// update Single Booking
+router.post("/update-current-booking", authMiddleware, async (req, res) => {
+  try {
+    const booking = await Booking.findOneAndUpdate(
+      { bookingId: req.body.bookingId },
+      req.body
+    );
+    console.log(booking);
+    res.status(200).send({
+      success: true,
+      message: "Your booking has been updated successfully",
+      data: booking,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .send({ message: "Error Updating user booking", success: false, error });
   }
 });
 
