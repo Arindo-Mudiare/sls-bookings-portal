@@ -6,8 +6,15 @@ app.use(express.json());
 const userRoute = require("./routes/userRoute");
 const adminRoute = require("./routes/adminRoute");
 const passwordResetRoutes = require("./routes/passwordReset");
-const WesPasswordResetRoutes = require("./routes/wesPassReset");
+// const WesPasswordResetRoutes = require("./routes/wesPassReset");
+const cors = require("cors");
 
+const corsOptions = {
+  origin: "http://localhost:8080",
+  credentials: true, //access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 app.use("/api/user", userRoute);
 app.use("/api/password-reset", passwordResetRoutes);
 app.use("/api/admin", adminRoute);

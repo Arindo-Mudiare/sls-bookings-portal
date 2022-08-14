@@ -49,7 +49,7 @@ router.post("/", async (req, res) => {
     });
 
     res.status(200).send({
-      message: `Password reset link sent to ${user.email}'s email account`,
+      message: `${url}Password reset link sent to ${user.email}'s email account`,
     });
   } catch (error) {
     res.status(500).send({ message: "Internal Server Error" });
@@ -60,11 +60,12 @@ router.post("/", async (req, res) => {
 router.get("/:id/:token", async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.id });
+    console.log(user);
     if (!user) return res.status(400).send({ message: "Invalid link" });
 
-    const token = await Token.findOne({
+    const token = await User.findOne({
       userId: user._id,
-      token: req.params.token,
+      resetPasswordToken: req.params.token,
     });
     if (!token) return res.status(400).send({ message: "Invalid link" });
 
@@ -87,20 +88,22 @@ router.post("/:id/:token", async (req, res) => {
     const user = await User.findOne({ _id: req.params.id });
     if (!user) return res.status(400).send({ message: "Invalid link" });
 
-    const token = await Token.findOne({
+    const token = await User.findOne({
       userId: user._id,
-      token: req.params.token,
+      resetPasswordToken: req.params.token,
     });
     if (!token) return res.status(400).send({ message: "Invalid link" });
 
-    if (!user.verified) user.verified = true;
+    // if (!user.verified) user.verified = true;
 
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(req.body.password, salt);
 
     user.password = hashPassword;
+    user.resetPasswordExpires = undefined;
+    user.resetPasswordToken = undefined;
     await user.save();
-    await token.remove();
+    // await token.remove();
 
     res.status(200).send({ message: "Password reset successfully" });
   } catch (error) {
