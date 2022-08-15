@@ -20,6 +20,27 @@ router.get("/get-all-bookings", authMiddleware, async (req, res) => {
       .send({ message: "Error getting Bookings", success: false, error });
   }
 });
+//  Delete Booking
+router.delete("/:id", authMiddleware, async (req, res) => {
+  try {
+    const { id: bookId } = req.params;
+    const booking = await Booking.findOne({ _id: bookId });
+
+    if (!booking) {
+      throw new NotFoundError(`No booking with id :${bookId}`);
+    }
+    await booking.remove();
+    res.status(200).send({
+      message: "Booking deleted successfully",
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .send({ message: "Error deleting Bookings", success: false, error });
+  }
+});
 
 //  Retrieve All registered users from database
 router.get("/get-all-users", authMiddleware, async (req, res) => {
