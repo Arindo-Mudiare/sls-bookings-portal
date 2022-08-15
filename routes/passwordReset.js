@@ -36,20 +36,20 @@ router.post("/", async (req, res) => {
     //   }).save();
     // }
 
-    const url = `${process.env.BASE_URL2}/password-reset/${user._id}/${user.resetPasswordToken}`;
-    // await sendEmail(user.email, "Password Reset", url);
-    const serverToken = process.env.API_TOKEN;
-    const client = new postmark.ServerClient(serverToken);
+    const url = `${process.env.LIVE_URL}/password-reset/${user._id}/${user.resetPasswordToken}`;
+    await sendEmail(user.email, "Password Reset", url);
+    // const serverToken = process.env.API_TOKEN;
+    // const client = new postmark.ServerClient(serverToken);
 
-    await client.sendEmail({
-      From: "slsbookings@slsportation.com",
-      To: "testbook@slsportation.com",
-      Subject: "Password Reset",
-      TextBody: `Click this link to reset your password ${url}`,
-    });
+    // await client.sendEmail({
+    //   From: "slsbookings@slsportation.com",
+    //   To: "testbook@slsportation.com",
+    //   Subject: "Password Reset",
+    //   TextBody: `Click this link to reset your password ${url}`,
+    // });
 
     res.status(200).send({
-      message: `${url}Password reset link sent to ${user.email}'s email account`,
+      message: `${url} Password reset link sent to ${user.email}'s email account`,
     });
   } catch (error) {
     res.status(500).send({ message: "Internal Server Error" });

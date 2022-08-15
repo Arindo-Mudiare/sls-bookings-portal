@@ -159,13 +159,15 @@ router.post("/get-booking-info-by-id", authMiddleware, async (req, res) => {
 });
 
 // update Single Booking
-router.post("/update-current-booking", authMiddleware, async (req, res) => {
+router.patch("/update-current-booking", authMiddleware, async (req, res) => {
   try {
+    const bookingId = req.body.bookingId;
+    // console.log(req.body);
     const booking = await Booking.findOneAndUpdate(
-      { bookingId: req.body.bookingId },
+      { _id: bookingId },
       req.body
     );
-    console.log(booking);
+    // console.log(booking);
     res.status(200).send({
       success: true,
       message: "Your booking has been updated successfully",
