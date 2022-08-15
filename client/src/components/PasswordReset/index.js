@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import styles from "./styles.module.css";
 
+// reset url
 const PasswordReset = () => {
   const [validUrl, setValidUrl] = useState(false);
   const [password, setPassword] = useState("");
