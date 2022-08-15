@@ -13,9 +13,17 @@ const BookingSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  pickupAddress: {
+    type: String,
+    required: false,
+  },
   deliverTo: {
     type: String,
     required: true,
+  },
+  deliverToAddress: {
+    type: String,
+    required: false,
   },
   sphoneNumber: {
     type: String,

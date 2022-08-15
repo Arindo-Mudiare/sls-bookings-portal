@@ -121,10 +121,29 @@ function FormTemplate(props) {
               )}
             </Form.Item>
           </Col>
+          {/* pick up address bike or interstate */}
+          {isTruck || isBus ? null : (
+            <Col span={8} xs={24} sm={24} lg={8}>
+              <Form.Item
+                required
+                label="Pick up Address(From)"
+                name="pickupAddress"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter your Pick up Address",
+                  },
+                ]}
+              >
+                <Input placeholder="Pick up Address(From)" />
+              </Form.Item>
+            </Col>
+          )}
+
           <Col span={8} xs={24} sm={24} lg={8}>
             <Form.Item
               required
-              label="Delivery Address(To)"
+              label="Delivery (To)"
               name="deliverTo"
               rules={[
                 {
@@ -146,6 +165,24 @@ function FormTemplate(props) {
               )}
             </Form.Item>
           </Col>
+          {/* delivery address bike and interstateDispatch */}
+          {isTruck || isBus ? null : (
+            <Col span={8} xs={24} sm={24} lg={8}>
+              <Form.Item
+                required
+                label="Delivery Address(To)"
+                name="deliverToAddress"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter your Delivery Address",
+                  },
+                ]}
+              >
+                <Input placeholder="Delivery Address(To)" />
+              </Form.Item>
+            </Col>
+          )}
           <Col span={8} xs={24} sm={24} lg={8}>
             <Form.Item
               required
