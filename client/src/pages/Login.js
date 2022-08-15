@@ -26,7 +26,7 @@ function Login() {
       }
     } catch (error) {
       dispatch(hideLoading());
-      toast.error("Something went wrong comrade!!!");
+      toast.error("Authentication failed");
     }
   };
 

@@ -4,7 +4,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { hideLoading, showLoading } from "../../redux/alertsSlice";
 import { Table } from "antd";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+// import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import * as dayjs from "dayjs";
 
 function BookingsList() {
@@ -45,19 +45,19 @@ function BookingsList() {
       filters: [
         {
           text: "Bus",
-          value: "busBooking",
+          value: "Bus Booking",
         },
         {
           text: "Bike",
-          value: "BikeBooking",
+          value: "Bike Booking",
         },
         {
           text: "Truck",
-          value: "truckBooking",
+          value: "Truck Booking",
         },
         {
           text: "Interstate",
-          value: "interstateDispatch",
+          value: "Interstate Dispatch",
         },
       ],
       onFilter: (value, record) => record.bookingType.indexOf(value) === 0,
@@ -95,12 +95,12 @@ function BookingsList() {
     {
       title: "Input Offer",
       dataIndex: "inputOffer",
-      sorter: (a, b) => a.inputOffer - b.inputOffer,
+      // sorter: (a, b) => a.inputOffer - b.inputOffer,
     },
     {
       title: "Booking-Date",
       dataIndex: "bookingDate",
-      sorter: (a, b) => a.bookingDate - b.bookingDate,
+      // sorter: (a, b) => b.bookingDate - a.bookingDate,
       render: (text, record) =>
         dayjs(record.bookingDate).format("DD-MMMM-YYYY"),
     },

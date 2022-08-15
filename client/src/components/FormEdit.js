@@ -18,13 +18,14 @@ function FormEdit(props) {
   const isBus = props.isBus;
 
   const onFinish = async (values) => {
+    console.log(`Updating ${params.bookingId} booking data`);
     try {
       dispatch(showLoading());
       const response = await axios.post(
         "/api/user/update-current-booking",
         {
           ...values,
-          bookingId: booking._id,
+          bookingId: booking?._id,
         },
         {
           headers: {
@@ -35,6 +36,7 @@ function FormEdit(props) {
       dispatch(hideLoading());
       if (response.data.success) {
         toast.success(response.data.message);
+        console.log(params.bookingId);
         navigate("/");
       } else {
         toast.error(response.data.message);
@@ -46,6 +48,7 @@ function FormEdit(props) {
   };
 
   const getBookingData = async () => {
+    console.log(`fetching ${params.bookingId} booking data`);
     try {
       dispatch(showLoading());
       const response = await axios.post(
@@ -63,6 +66,7 @@ function FormEdit(props) {
       dispatch(hideLoading());
       if (response.data.success) {
         setBooking(response.data.data);
+        console.log(`Fetching booking`);
       }
     } catch (error) {
       console.log(error);
@@ -77,7 +81,7 @@ function FormEdit(props) {
   // console.log(booking);
   const dateFormat = "YYYY-MM-DD";
   const selectedStartDate = moment("2022-08-01", dateFormat);
-  const selectedEndDate = moment("2022-12-11", dateFormat);
+  // const selectedEndDate = moment("2022-12-11", dateFormat);
 
   return (
     <div className="form-container">
