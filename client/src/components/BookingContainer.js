@@ -42,7 +42,7 @@ const BookingContainer = () => {
 
   useEffect(() => {
     getUserBookingsData();
-    console.log(bookings);
+    // console.log(bookings);
     // eslint-disable-next-line
   }, [page, search, searchStatus, searchType, sort]);
   if (isLoading) {

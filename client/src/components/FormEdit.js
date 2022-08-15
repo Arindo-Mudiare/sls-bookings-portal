@@ -14,18 +14,18 @@ function FormEdit(props) {
   const [booking, setBooking] = useState(null);
   const navigate = useNavigate();
 
-  const isTruck = props.isTruck;
-  const isBus = props.isBus;
+  // const isTruck = props.isTruck;
+  // const isBus = props.isBus;
 
   const onFinish = async (values) => {
-    console.log(`Updating ${params.bookingId} booking data`);
+    console.log({ ...values });
     try {
       dispatch(showLoading());
-      const response = await axios.post(
+      const response = await axios.patch(
         "/api/user/update-current-booking",
         {
           ...values,
-          bookingId: booking?._id,
+          bookingId: booking._id,
         },
         {
           headers: {
@@ -48,7 +48,7 @@ function FormEdit(props) {
   };
 
   const getBookingData = async () => {
-    console.log(`fetching ${params.bookingId} booking data`);
+    // console.log(`fetching ${params.bookingId} booking data`);
     try {
       dispatch(showLoading());
       const response = await axios.post(
@@ -66,10 +66,11 @@ function FormEdit(props) {
       dispatch(hideLoading());
       if (response.data.success) {
         setBooking(response.data.data);
-        console.log(`Fetching booking`);
+        // console.log(response.data.data);
+        // console.log(response.data.message);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       dispatch(hideLoading());
     }
   };
@@ -82,6 +83,9 @@ function FormEdit(props) {
   const dateFormat = "YYYY-MM-DD";
   const selectedStartDate = moment("2022-08-01", dateFormat);
   // const selectedEndDate = moment("2022-12-11", dateFormat);
+
+  // console.log(booking?.bookingType);
+  const BookType = booking?.bookingType;
 
   return (
     <div className="form-container">
@@ -143,7 +147,7 @@ function FormEdit(props) {
             <Col span={8} xs={24} sm={24} lg={8}>
               <Form.Item
                 required
-                label="Pick up Address(From)"
+                label="Pick Up (From)"
                 name="pickUpFrom"
                 rules={[
                   {
@@ -152,13 +156,43 @@ function FormEdit(props) {
                   },
                 ]}
               >
-                <Input placeholder="Pick up Address(From)" />
+                {BookType === "Truck Booking" || BookType === "Bus Booking" ? (
+                  <Input placeholder="Pick Up(From)" />
+                ) : (
+                  <Select>
+                    <Select.Option value="Abuja">Abuja</Select.Option>
+                    <Select.Option value="Port Harcourt">
+                      Port Harcourt
+                    </Select.Option>
+                    <Select.Option value="Lagos">Lagos</Select.Option>
+                  </Select>
+                )}
               </Form.Item>
             </Col>
+            {/* pick up address bike or interstate */}
+            {BookType === "Truck Booking" ||
+            BookType === "Bus Booking" ? null : (
+              <Col span={8} xs={24} sm={24} lg={8}>
+                <Form.Item
+                  required
+                  label="Pick up Address(From)"
+                  name="pickupAddress"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please enter your Pick up Address",
+                    },
+                  ]}
+                >
+                  <Input placeholder="Pick up Address(From)" />
+                </Form.Item>
+              </Col>
+            )}
+
             <Col span={8} xs={24} sm={24} lg={8}>
               <Form.Item
                 required
-                label="Delivery Address(To)"
+                label="Delivery (To)"
                 name="deliverTo"
                 rules={[
                   {
@@ -167,9 +201,38 @@ function FormEdit(props) {
                   },
                 ]}
               >
-                <Input placeholder="Pick up Address(From)" />
+                {BookType === "Truck Booking" || BookType === "Bus Booking" ? (
+                  <Input placeholder="Pick up Address(From)" />
+                ) : (
+                  <Select>
+                    <Select.Option value="Abuja">Abuja</Select.Option>
+                    <Select.Option value="Port Harcourt">
+                      Port Harcourt
+                    </Select.Option>
+                    <Select.Option value="Lagos">Lagos</Select.Option>
+                  </Select>
+                )}
               </Form.Item>
             </Col>
+            {/* delivery address bike and interstateDispatch */}
+            {BookType === "Truck Booking" ||
+            BookType === "Bus Booking" ? null : (
+              <Col span={8} xs={24} sm={24} lg={8}>
+                <Form.Item
+                  required
+                  label="Delivery Address(To)"
+                  name="deliverToAddress"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please enter your Delivery Address",
+                    },
+                  ]}
+                >
+                  <Input placeholder="Delivery Address(To)" />
+                </Form.Item>
+              </Col>
+            )}
             <Col span={8} xs={24} sm={24} lg={8}>
               <Form.Item
                 required

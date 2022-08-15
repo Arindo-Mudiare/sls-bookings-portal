@@ -99,7 +99,7 @@ function FormTemplate(props) {
           <Col span={8} xs={24} sm={24} lg={8}>
             <Form.Item
               required
-              label="Pick up Address(From)"
+              label="Pick Up (From)"
               name="pickUpFrom"
               rules={[
                 {
@@ -109,7 +109,7 @@ function FormTemplate(props) {
               ]}
             >
               {isTruck || isBus ? (
-                <Input placeholder="Pick up Address(From)" />
+                <Input placeholder="Pick Up(From)" />
               ) : (
                 <Select>
                   <Select.Option value="Abuja">Abuja</Select.Option>

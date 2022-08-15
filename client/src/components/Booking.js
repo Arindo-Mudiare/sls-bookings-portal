@@ -16,10 +16,12 @@ const Booking = ({
   bookingType,
   createdBy,
   deliverTo,
+  deliverToAddress,
   description,
   inputOffer,
   name,
   pickUpFrom,
+  pickupAddress,
   quantity,
   rphoneNumber,
   sphoneNumber,
@@ -28,6 +30,13 @@ const Booking = ({
 
   let date = moment(bookingDate);
   date = date.format("MMM Do, YYYY");
+
+  if (deliverToAddress == null) {
+    deliverToAddress = "";
+  }
+  if (pickupAddress == null) {
+    pickupAddress = "";
+  }
   return (
     <Wrapper>
       <header>
@@ -41,13 +50,13 @@ const Booking = ({
         <div className="content-center">
           <BookingInfo
             icon={<BsFillArrowUpSquareFill />}
-            text={`Pick up Address: ${pickUpFrom}`}
+            text={`Pick up Address: ${pickUpFrom}- ${pickupAddress}`}
           />
           {/* BsFillArrowDownSquareFill */}
           <BookingInfo icon={<FaCalendarAlt />} text={date} />
           <BookingInfo
             icon={<BsFillArrowDownSquareFill />}
-            text={`Delivery Adress: ${deliverTo}`}
+            text={`Delivery Adress: ${deliverTo}- ${deliverToAddress}`}
           />
           {/* <div className={`status ${status}`}>{description}</div> */}
         </div>
