@@ -65,10 +65,20 @@ function BookingsList() {
     {
       title: "Pick up Address",
       dataIndex: "pickUpFrom",
+      render: (text, record) => (
+        <span>
+          {record.pickUpFrom} {record.pickupAddress}
+        </span>
+      ),
     },
     {
       title: "Delivery Address",
       dataIndex: "deliverTo",
+      render: (text, record) => (
+        <span>
+          {record.deliverTo} {record.deliverToAddress}
+        </span>
+      ),
     },
     {
       title: "Sender's Phone no",
