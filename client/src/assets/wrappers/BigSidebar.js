@@ -64,6 +64,20 @@ const Wrapper = styled.aside`
     .active .icon {
       color: var(--grey-50);
     }
+    /* @media (min-width: 768px) {
+      .sidebar-container {
+        width: 190px;
+      }
+      .icon {
+        font-size: 1rem;
+      }
+      .nav-link {
+        font-size: 14px;
+        padding: 1rem 0;
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    } */
   }
 `;
 export default Wrapper;

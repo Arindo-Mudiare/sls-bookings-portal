@@ -9,7 +9,7 @@ const PassReset = () => {
   const [msg, setMsg] = useState("");
   const [error, setError] = useState("");
   const param = useParams();
-  const url = `http://localhost:8080/api/password-reset/${param.id}/${param.token}`;
+  const url = `${process.env.LIVE_URL}/api/password-reset/${param.id}/${param.token}`;
 
   useEffect(() => {
     const verifyUrl = async () => {

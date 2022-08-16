@@ -138,7 +138,7 @@ width: max-content !important;
 }
 
 .anchor:hover {
-    text-decoration: underline !important;
+    color:  #0d8ebd !important;
 }
 
 @media screen and (max-width: 768px){
