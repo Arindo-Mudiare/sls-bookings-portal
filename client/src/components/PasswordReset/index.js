@@ -10,7 +10,7 @@ const PasswordReset = () => {
   const [msg, setMsg] = useState("");
   const [error, setError] = useState("");
   const param = useParams();
-  const url = `https://slsbookings.herokuapp.com/api/password-reset/${param.id}/${param.token}`;
+  const url = `${process.env.LIVE_URL}/api/password-reset/${param.id}/${param.token}`;
 
   useEffect(() => {
     const verifyUrl = async () => {
