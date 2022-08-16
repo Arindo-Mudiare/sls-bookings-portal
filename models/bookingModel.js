@@ -43,7 +43,7 @@ const BookingSchema = new mongoose.Schema({
   },
   additionalInfo: {
     type: String,
-    required: true,
+    required: false,
   },
   bookingDate: {
     type: Date,

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { hideLoading, showLoading } from "../redux/alertsSlice";
 import toast from "react-hot-toast";
 import axios from "axios";
+import moment from "moment";
 
 function FormTemplate(props) {
   const dispatch = useDispatch();
@@ -41,6 +42,12 @@ function FormTemplate(props) {
       toast.error("Something went wrong!");
     }
   };
+
+  function disabledDate(current) {
+    let customDate = moment().subtract(1, "days");
+    // const yesterday = moment().subtract(1, "days");
+    return current && current < moment(customDate, "DD-MMMM-YYYY");
+  }
 
   return (
     <div className="form-container">
@@ -247,7 +254,7 @@ function FormTemplate(props) {
               name="additionalInfo"
               rules={[
                 {
-                  required: true,
+                  required: false,
                   message: "Kindly enter any Additional information here",
                 },
               ]}
@@ -281,7 +288,11 @@ function FormTemplate(props) {
                 },
               ]}
             >
-              <DatePicker picker="date" format="DD-MMMM-YYYY" />
+              <DatePicker
+                picker="date"
+                format="DD-MMMM-YYYY"
+                disabledDate={disabledDate}
+              />
             </Form.Item>
           </Col>
         </Row>

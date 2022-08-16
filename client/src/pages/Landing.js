@@ -17,7 +17,7 @@ const Landing = () => {
               Welcome to<br></br> <span>SLS Portation</span>
             </h1>
             <p>
-              Your one stop logistics service for you.<br></br>
+              Your one stop logistics service provider<br></br>
               Your Dispatch and Haulage needs made easier, better, faster to
               your satisfaction. <br />
               <span className="sls-red">SLSPortation…..Fast Delivery</span>

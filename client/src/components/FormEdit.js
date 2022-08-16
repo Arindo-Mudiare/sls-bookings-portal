@@ -87,6 +87,12 @@ function FormEdit(props) {
   // console.log(booking?.bookingType);
   const BookType = booking?.bookingType;
 
+  function disabledDate(current) {
+    let customDate = moment().subtract(1, "days");
+    // const yesterday = moment().subtract(1, "days");
+    return current && current < moment(customDate, "DD-MMMM-YYYY");
+  }
+
   return (
     <div className="form-container">
       {booking && (
@@ -94,7 +100,10 @@ function FormEdit(props) {
           layout="vertical"
           className="form-effizi"
           onFinish={onFinish}
-          initialValues={{ ...booking, bookingDate: selectedStartDate }}
+          initialValues={{
+            ...booking,
+            bookingDate: moment(),
+          }}
         >
           {/* <h1 className="card-title card-mgy">Kindly Provide Details Below...</h1> */}
           <Row gutter={20}>
@@ -297,7 +306,7 @@ function FormEdit(props) {
                 name="additionalInfo"
                 rules={[
                   {
-                    required: true,
+                    required: false,
                     message: "Kindly enter any Additional information here",
                   },
                 ]}
@@ -335,7 +344,7 @@ function FormEdit(props) {
                   },
                 ]}
               >
-                <DatePicker picker="date" />
+                <DatePicker picker="date" disabledDate={disabledDate} />
               </Form.Item>
             </Col>
           </Row>
