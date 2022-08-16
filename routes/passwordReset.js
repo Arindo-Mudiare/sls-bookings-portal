@@ -47,9 +47,9 @@ router.post("/", async (req, res) => {
     //   Subject: "Password Reset",
     //   TextBody: `Click this link to reset your password ${url}`,
     // });
-
+    console.log(url);
     res.status(200).send({
-      message: `${url} Password reset link sent to ${user.email}'s email account`,
+      message: `Password reset link sent to ${user.email}'s email account`,
     });
   } catch (error) {
     res.status(500).send({ message: "Internal Server Error" });
