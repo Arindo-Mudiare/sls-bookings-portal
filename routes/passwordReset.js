@@ -37,16 +37,16 @@ router.post("/", async (req, res) => {
     // }
 
     const url = `${process.env.LIVE_URL}/password-reset/${user._id}/${user.resetPasswordToken}`;
-    await sendEmail(user.email, "Password Reset", url);
-    // const serverToken = process.env.API_TOKEN;
-    // const client = new postmark.ServerClient(serverToken);
+    // await sendEmail(user.email, "Password Reset", url);
+    const serverToken = process.env.API_TOKEN;
+    const client = new postmark.ServerClient(serverToken);
 
-    // await client.sendEmail({
-    //   From: "slsbookings@slsportation.com",
-    //   To: "testbook@slsportation.com",
-    //   Subject: "Password Reset",
-    //   TextBody: `Click this link to reset your password ${url}`,
-    // });
+    await client.sendEmail({
+      From: "slsbookings@slsportation.com",
+      To: `${user.email}`,
+      Subject: "Password Reset",
+      TextBody: `Click this link to reset your password ${url}`,
+    });
     console.log(url);
     res.status(200).send({
       message: `Password reset link sent to ${user.email}'s email account`,
