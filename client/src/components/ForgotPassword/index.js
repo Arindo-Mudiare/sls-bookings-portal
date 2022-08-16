@@ -11,7 +11,7 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const url = `https://slsbookings.com/api/password-reset`;
+      const url = `${process.env.LIVE_URL}/api/password-reset`;
       const { data } = await axios.post(url, { email });
       setMsg(data.message);
       setResetUrl(data.url);
