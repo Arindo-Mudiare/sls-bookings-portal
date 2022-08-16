@@ -20,10 +20,11 @@ const SmallSidebar = () => {
           <button type="button" className="close-btn" onClick={toggleSidebar}>
             <FaTimes />
           </button>
-          <header>
+
+          <Navlinks toggleSidebar={toggleSidebar} />
+          <header className="mt-4">
             <Logo />
           </header>
-          <Navlinks toggleSidebar={toggleSidebar} />
         </div>
       </div>
     </Wrapper>
