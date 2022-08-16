@@ -240,7 +240,9 @@ function FormTemplate(props) {
               rules={[
                 {
                   required: true,
-                  message: "Please enter the quantity of items to be sent",
+                  message:
+                    "Please enter a number for the quantity of items to be sent",
+                  pattern: new RegExp(/^[0-9]+$/),
                 },
               ]}
             >
