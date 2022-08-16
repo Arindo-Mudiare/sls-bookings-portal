@@ -4,7 +4,7 @@ import { FormTemplate, LayoutStrip } from "../components";
 function BookBikes() {
   return (
     <LayoutStrip>
-      <h1 className="card-title fade-title">Book Bus Service</h1>
+      <h1 className="card-title fade-title">Book Bike Service</h1>
       <hr />
       <FormTemplate isTruck={false} isBus={false} />
     </LayoutStrip>
