@@ -49,7 +49,7 @@ router.post("/", async (req, res) => {
     // });
 
     res.status(200).send({
-      message: `Password reset link sent to ${user.email}'s email account`,
+      message: `${url} Password reset link sent to ${user.email}'s email account`,
     });
   } catch (error) {
     res.status(500).send({ message: "Internal Server Error" });

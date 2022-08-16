@@ -61,7 +61,11 @@ const PasswordReset = () => {
               className={styles.input}
             />
             {error && <div className={styles.error_msg}>{error}</div>}
-            {msg && <div className={styles.success_msg}>{msg}</div>}
+            {msg && (
+              <div className={styles.success_msg}>
+                Password reset link sent to your email
+              </div>
+            )}
             <button type="submit" className={styles.green_btn}>
               Submit
             </button>
