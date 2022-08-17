@@ -24,11 +24,11 @@ const BookingContainer = () => {
 
       if (response.data.success) {
         setBookings(response.data.data);
+        dispatch(hideLoading());
       }
     } catch (error) {
       dispatch(hideLoading());
     }
-    dispatch(hideLoading());
   };
 
   const {

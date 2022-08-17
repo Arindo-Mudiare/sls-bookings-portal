@@ -24,9 +24,9 @@ const PassReset = () => {
       } catch (error) {
         setValidUrl(false);
       }
-      dispatch(hideLoading());
     };
     verifyUrl();
+    dispatch(hideLoading());
   }, [param, url]);
   // console.log(param);
   // console.log(url);
