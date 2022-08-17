@@ -1,5 +1,7 @@
 import { useEffect, useState, Fragment } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { hideLoading, showLoading } from "../redux/alertsSlice";
 import axios from "axios";
 import styles from "./PasswordReset/styles.module.css";
 
@@ -9,21 +11,25 @@ const PassReset = () => {
   const [msg, setMsg] = useState("");
   const [error, setError] = useState("");
   const param = useParams();
+  const dispatch = useDispatch();
   const url = `https://slsbookings.com/api/password-reset/${param.id}/${param.token}`;
 
   useEffect(() => {
     const verifyUrl = async () => {
       try {
+        dispatch(showLoading());
         await axios.get(url);
+
         setValidUrl(true);
       } catch (error) {
         setValidUrl(false);
       }
+      dispatch(hideLoading());
     };
     verifyUrl();
   }, [param, url]);
-  console.log(param);
-  console.log(url);
+  // console.log(param);
+  // console.log(url);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

@@ -21,13 +21,14 @@ const BookingContainer = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      dispatch(hideLoading());
+
       if (response.data.success) {
         setBookings(response.data.data);
       }
     } catch (error) {
       dispatch(hideLoading());
     }
+    dispatch(hideLoading());
   };
 
   const {

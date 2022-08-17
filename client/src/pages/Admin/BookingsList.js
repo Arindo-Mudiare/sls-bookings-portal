@@ -183,7 +183,7 @@ function BookingsList() {
         columns={columns}
         dataSource={bookings}
         size="small"
-        pagination={{ pageSize: 6 }}
+        pagination={{ pageSize: 5 }}
       />
     </LayoutStrip>
   );
