@@ -7,15 +7,27 @@ const userRoute = require("./routes/userRoute");
 const adminRoute = require("./routes/adminRoute");
 const passwordResetRoutes = require("./routes/passwordReset");
 const path = require("path");
+// import sslRedirect from "heroku-ssl-redirect.js";
 // const WesPasswordResetRoutes = require("./routes/wesPassReset");
 // const cors = require("cors");
 
+// enable ssl redirect
+// app.use(sslRedirect());
 // const corsOptions = {
 //   origin: "http://localhost:8080",
 //   credentials: true, //access-control-allow-credentials:true
 //   optionSuccessStatus: 200,
 // };
 // app.use(cors(corsOptions));
+
+app.use(function (req, res, next) {
+  if (req.header("x-forwarded-proto") === "http") {
+    res.redirect(301, "https://" + req.hostname + req.url);
+    return;
+  }
+  next();
+});
+
 app.use("/api/user", userRoute);
 app.use("/api/password-reset", passwordResetRoutes);
 app.use("/api/admin", adminRoute);

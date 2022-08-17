@@ -7,7 +7,7 @@
     "node": "16.14.2",
     "npm": "8.5.0"
   },
-   "scripts": {
+  "scripts": {
     "client-install": "npm install --prefix client",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
@@ -25,6 +25,7 @@
     "dayjs": "^1.11.4",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "heroku-ssl-redirect": "^0.1.1",
     "joi": "^17.6.0",
     "joi-password-complexity": "^5.1.0",
     "jsonwebtoken": "^8.5.1",
