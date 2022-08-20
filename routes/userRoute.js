@@ -50,7 +50,7 @@ router.post("/login", async (req, res) => {
         .send({ message: "Password is incorrect", success: false });
     } else {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "1d",
+        expiresIn: "10800s",
       });
       res
         .status(200)
@@ -125,7 +125,9 @@ router.post("/submit-new-booking", authMiddleware, async (req, res) => {
 //  Retrieve All Bookings from Current User
 router.get("/get-user-bookings", authMiddleware, async (req, res) => {
   try {
-    const bookings = await Booking.find({ createdBy: req.body.userId });
+    const bookings = await Booking.find({ createdBy: req.body.userId }).sort({
+      bookingDate: -1,
+    });
     res.status(200).send({
       message: "User's Bookings fetched successfully",
       success: true,

@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { hideLoading, showLoading } from "../../redux/alertsSlice";
 import { Table } from "antd";
 // import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import moment from "moment";
 import * as dayjs from "dayjs";
 
 function BookingsList() {
@@ -111,8 +112,10 @@ function BookingsList() {
       title: "Booking-Date",
       dataIndex: "bookingDate",
       // sorter: (a, b) => b.bookingDate - a.bookingDate,
+      sorter: (a, b) =>
+        moment(a.bookingDate).unix() - moment(b.bookingDate).unix(),
       render: (text, record) =>
-        dayjs(record.bookingDate).format("DD-MMMM-YYYY"),
+        moment(record.bookingDate).format("DD-MMMM-YYYY"),
     },
     // {
     //   title: "Actions",

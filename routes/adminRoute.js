@@ -7,7 +7,9 @@ const authMiddleware = require("../middleware/authMiddleware");
 //  Retrieve All Bookings from database
 router.get("/get-all-bookings", authMiddleware, async (req, res) => {
   try {
-    const bookings = await Booking.find({});
+    const bookings = await Booking.find({}).sort({
+      bookingDate: -1,
+    });
     res.status(200).send({
       message: "Bookings fetched successfully",
       success: true,
