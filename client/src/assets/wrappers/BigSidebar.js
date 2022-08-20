@@ -9,9 +9,12 @@ const Wrapper = styled.aside`
       background: var(--primary-500);
       min-height: 100vh;
       height: 100%;
-      width: 250px;
+      width: 200px;
       margin-left: -250px;
       transition: var(--transition);
+    }
+    .logolo {
+      color: #fff;
     }
     .content {
       position: sticky;

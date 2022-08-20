@@ -180,7 +180,7 @@ function BookingsList() {
         console.log(dayjs(booking.bookingDate).format("DD-MMMM-YYYY"))
       )} */}
 
-      <h3 className="page-header">Bookings List</h3>
+      <h5 className="page-header">Bookings List</h5>
       <hr />
       <Table
         columns={columns}

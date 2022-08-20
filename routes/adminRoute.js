@@ -8,7 +8,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 router.get("/get-all-bookings", authMiddleware, async (req, res) => {
   try {
     const bookings = await Booking.find({}).sort({
-      bookingDate: -1,
+      updatedAt: -1,
     });
     res.status(200).send({
       message: "Bookings fetched successfully",

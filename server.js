@@ -20,13 +20,14 @@ const path = require("path");
 // };
 // app.use(cors(corsOptions));
 
-app.use(function (req, res, next) {
-  if (req.header("x-forwarded-proto") === "http") {
-    res.redirect(301, "https://" + req.hostname + req.url);
-    return;
-  }
-  next();
-});
+// ssl redirect in heroku functionality
+// app.use(function (req, res, next) {
+//   if (req.header("x-forwarded-proto") === "http") {
+//     res.redirect(301, "https://" + req.hostname + req.url);
+//     return;
+//   }
+//   next();
+// });
 
 app.use("/api/user", userRoute);
 app.use("/api/password-reset", passwordResetRoutes);

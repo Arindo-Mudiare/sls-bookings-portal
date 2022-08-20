@@ -61,9 +61,13 @@ function UsersList() {
 
   return (
     <LayoutStrip>
-      <h3 className="page-header">Users List</h3>
+      <h5 className="page-header">Users List</h5>
       <hr />
-      <Table columns={columns} dataSource={users} />
+      <Table
+        columns={columns}
+        dataSource={users}
+        pagination={{ pageSize: 7 }}
+      />
     </LayoutStrip>
   );
 }

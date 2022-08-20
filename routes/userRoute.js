@@ -126,7 +126,7 @@ router.post("/submit-new-booking", authMiddleware, async (req, res) => {
 router.get("/get-user-bookings", authMiddleware, async (req, res) => {
   try {
     const bookings = await Booking.find({ createdBy: req.body.userId }).sort({
-      bookingDate: -1,
+      updatedAt: -1,
     });
     res.status(200).send({
       message: "User's Bookings fetched successfully",
