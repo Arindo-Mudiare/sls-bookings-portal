@@ -42,7 +42,7 @@ const Booking = ({
       <header>
         <div className="main-icon">{name.charAt(0)}</div>
         <div className="info">
-          <h5>{description}</h5>
+          <h6>{description}</h6>
           <p>{bookingType}</p>
         </div>
       </header>

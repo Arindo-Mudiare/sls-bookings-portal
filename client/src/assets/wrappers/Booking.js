@@ -18,8 +18,8 @@ const Wrapper = styled.article`
     }
   }
   .main-icon {
-    width: 60px;
-    height: 60px;
+    width: 45px;
+    height: 45px;
     display: grid;
     place-items: center;
     background: var(--primary-500);
