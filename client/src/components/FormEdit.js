@@ -18,7 +18,7 @@ function FormEdit(props) {
   // const isBus = props.isBus;
 
   const onFinish = async (values) => {
-    console.log({ ...values });
+    // console.log({ ...values });
     try {
       dispatch(showLoading());
       const response = await axios.patch(
@@ -36,7 +36,7 @@ function FormEdit(props) {
       dispatch(hideLoading());
       if (response.data.success) {
         toast.success(response.data.message);
-        console.log(params.bookingId);
+        // console.log(params.bookingId);
         navigate("/");
       } else {
         toast.error(response.data.message);

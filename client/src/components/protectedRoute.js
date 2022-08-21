@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { setUser, reloadUserData } from "../redux/userSlice";
+import { setUser } from "../redux/userSlice";
 import { hideLoading, showLoading } from "../redux/alertsSlice";
 
 function ProtectedRoute(props) {
@@ -10,7 +10,7 @@ function ProtectedRoute(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const getUser = async () => {
+  const getUser = useCallback(async () => {
     try {
       dispatch(showLoading());
       const response = await axios.post(
@@ -33,18 +33,18 @@ function ProtectedRoute(props) {
         navigate("/landing");
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       dispatch(hideLoading());
       localStorage.clear();
       navigate("/landing");
     }
-  };
+  }, [dispatch, navigate]);
 
   useEffect(() => {
     if (!user || reloadUser) {
       getUser();
     }
-  }, [user, reloadUser]);
+  }, [user, reloadUser, getUser]);
 
   if (localStorage.getItem("token")) {
     return props.children;
