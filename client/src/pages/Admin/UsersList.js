@@ -5,12 +5,13 @@ import { useDispatch } from "react-redux";
 import { hideLoading, showLoading } from "../../redux/alertsSlice";
 import { Table } from "antd";
 import moment from "moment";
+import { useCallback } from "react";
 
 function UsersList() {
   const [users, setUsers] = useState([]);
   const dispatch = useDispatch();
 
-  const getUsersData = async () => {
+  const getUsersData = useCallback(async () => {
     try {
       dispatch(showLoading());
       const response = await axios.get("/api/admin/get-all-users", {
@@ -26,11 +27,11 @@ function UsersList() {
     } catch (error) {
       dispatch(hideLoading());
     }
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     getUsersData();
-  }, []);
+  }, [getUsersData]);
 
   const columns = [
     {
@@ -67,6 +68,7 @@ function UsersList() {
         columns={columns}
         dataSource={users}
         pagination={{ pageSize: 7 }}
+        rowKey={(record) => record._id}
       />
     </LayoutStrip>
   );

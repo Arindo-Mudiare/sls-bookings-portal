@@ -43,7 +43,7 @@ function BookingsList() {
       });
       dispatch(hideLoading());
       if (response.data.success) {
-        console.log(bookId);
+        // console.log(bookId);
         window.location.reload(true);
         toast.success(response.data.message);
       } else {
@@ -205,6 +205,7 @@ function BookingsList() {
         dataSource={bookings}
         size="small"
         pagination={{ pageSize: 7 }}
+        rowKey={(record) => record._id}
       />
     </LayoutStrip>
   );
