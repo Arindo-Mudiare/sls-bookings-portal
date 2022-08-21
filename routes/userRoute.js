@@ -143,6 +143,28 @@ router.get("/get-user-bookings", authMiddleware, async (req, res) => {
   }
 });
 
+//  Delete Current User Booking
+router.delete("/:id", authMiddleware, async (req, res) => {
+  try {
+    const { id: bookId } = req.params;
+    const booking = await Booking.findOne({ _id: bookId });
+
+    if (!booking) {
+      throw new NotFoundError(`No booking with id :${bookId}`);
+    }
+    await booking.remove();
+    res.status(200).send({
+      message: "Booking deleted successfully",
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .send({ message: "Error deleting Bookings", success: false, error });
+  }
+});
+
 //  Retrieve Current Booking by id
 router.post("/get-booking-info-by-id", authMiddleware, async (req, res) => {
   try {

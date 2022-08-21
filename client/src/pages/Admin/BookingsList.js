@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import LayoutStrip from "../../components/LayoutStrip";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { hideLoading, showLoading } from "../../redux/alertsSlice";
-import { Table } from "antd";
-// import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Table, Modal } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
+// EditOutlined,
 import moment from "moment";
-import * as dayjs from "dayjs";
+import toast from "react-hot-toast";
+// import * as dayjs from "dayjs";
 
 function BookingsList() {
   const [bookings, setBookings] = useState([]);
@@ -14,7 +16,7 @@ function BookingsList() {
   // const [isEditing, setIsEditing] = useState(false);
   // const [editingBooking, setEditingBooking] = useState(null);
 
-  const getBookingsData = async () => {
+  const getBookingsData = useCallback(async () => {
     try {
       dispatch(showLoading());
       const response = await axios.get("/api/admin/get-all-bookings", {
@@ -29,11 +31,33 @@ function BookingsList() {
     } catch (error) {
       dispatch(hideLoading());
     }
+  }, [dispatch]);
+
+  const deleteBooking = async (bookId) => {
+    try {
+      dispatch(showLoading());
+      const response = await axios.delete(`/api/user/${bookId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      dispatch(hideLoading());
+      if (response.data.success) {
+        console.log(bookId);
+        window.location.reload(true);
+        toast.success(response.data.message);
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      dispatch(hideLoading());
+      toast.error("Something went wrong!");
+    }
   };
 
   useEffect(() => {
     getBookingsData();
-  }, []);
+  }, [getBookingsData]);
 
   const columns = [
     {
@@ -117,26 +141,26 @@ function BookingsList() {
       render: (text, record) =>
         moment(record.bookingDate).format("DD-MMMM-YYYY"),
     },
-    // {
-    //   title: "Actions",
-    //   render: (record) => {
-    //     return (
-    //       <>
-    //         <EditOutlined
-    //           onClick={() => {
-    //             onEditBooking(record);
-    //           }}
-    //         />
-    //         <DeleteOutlined
-    //           onClick={() => {
-    //             onDeleteBooking(record);
-    //           }}
-    //           style={{ color: "red", marginLeft: 12 }}
-    //         />
-    //       </>
-    //     );
-    //   },
-    // },
+    {
+      title: "Actions",
+      render: (record) => {
+        return (
+          <>
+            {/* <EditOutlined
+              onClick={() => {
+                onEditBooking(record);
+              }}
+            /> */}
+            <DeleteOutlined
+              onClick={() => {
+                onDeleteBooking(record);
+              }}
+              style={{ color: "red", marginLeft: 12 }}
+            />
+          </>
+        );
+      },
+    },
 
     // {
     //   title: "Status of Booking",
@@ -154,18 +178,16 @@ function BookingsList() {
     // },
   ];
 
-  // const onDeleteBooking = (record) => {
-  //   Modal.confirm({
-  //     title: "Are you sure, you want to delete this user's Booking?",
-  //     okText: "Yes",
-  //     okType: "danger",
-  //     onOk: () => {
-  //       setBookings((pre) => {
-  //         return pre.filter((booking) => booking.id !== record.id);
-  //       });
-  //     },
-  //   });
-  // };
+  const onDeleteBooking = (record) => {
+    Modal.confirm({
+      title: `Are you sure, you want to delete this user's Booking?`,
+      okText: "Yes",
+      okType: "danger",
+      onOk: () => {
+        setBookings(deleteBooking(record._id));
+      },
+    });
+  };
   // const onEditBooking = (record) => {
   //   setIsEditing(true);
   //   setEditingBooking({ ...record });
@@ -176,17 +198,13 @@ function BookingsList() {
   // };
   return (
     <LayoutStrip>
-      {/* {bookings.map((booking) =>
-        console.log(dayjs(booking.bookingDate).format("DD-MMMM-YYYY"))
-      )} */}
-
       <h5 className="page-header">Bookings List</h5>
       <hr />
       <Table
         columns={columns}
         dataSource={bookings}
         size="small"
-        pagination={{ pageSize: 5 }}
+        pagination={{ pageSize: 7 }}
       />
     </LayoutStrip>
   );
