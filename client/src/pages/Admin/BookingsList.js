@@ -204,7 +204,7 @@ function BookingsList() {
         columns={columns}
         dataSource={bookings}
         size="small"
-        pagination={{ pageSize: 7 }}
+        pagination={{ pageSize: 5 }}
         rowKey={(record) => record._id}
       />
     </LayoutStrip>
